@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load gravatar %}
+{% block content %}
+
+    <h1>
+        {{ post.title }}
+    </h1>
+    <h4>
+                    {{ post.subtitle }}
+    </h4>
+    <hr>
+        {% if post.image  %}
+            <img class="img-responsive" src="{{ MEDIA_URL }}{{ post.image }}">
+        {% endif %}
+    <hr>
+    <div class="col-md-2 col-sm-3 text-center" style="float: right;">
+
+        <a class="story-img" href="#">
+            <img src="{% gravatar_url post.author.email %}" style="max-width: 100px; max-height: 100px; background-color:#12ABB2; color:#ffffff">
+        </a>
+
+    </div>
+
+    <p class="lead">
+        by <a href="#">{{ post.author }}</a>
+    </p>
+
+    <p><span class="glyphicon glyphicon-time"></span>{{ post.published_date }}| <strong>Views:</strong> {{ post.views }} | <strong>Tag:</strong> {{ post.tag }} </p>
+
+        <p>{{ post.content | linebreaks }}</p>
+        <p><button class="btn btn-primary" onclick="location.href='{% url 'home'%}'">Back to Blog</button>
+
+            {% if user.id == post.author_id or user.is_superuser %}
+                <button class="btn btn-danger" onclick="location.href='{% url 'edit_post' post.id%}'">Edit</button>
+
+            {% endif %}
+
+        </p>
+        <p>
+             {% if user.is_authenticated  %}
+                {% load disqus_tags %}
+                {% set_disqus_title post.title %}
+                {% disqus_show_comments %}
+             {% else %}
+                 Please <strong><a href="{% url 'login' %}">Sign in</a></strong> or <strong><a href="{% url 'register' %}">Register</a></strong> to enable comments
+             {% endif %}
+        </p>
+        <p>{{ post.published_date }} | <strong>Views:</strong> {{ post.views }} | <strong>Tag:</strong> {{ post.tag }}</p>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    {% if user.email  %}
+        <h2>Hello, {{ user.email }}!!</h2>
+        <p>Your last log in time was on {{ user.last_login }}
+    {% else %}
+        <h2>Hello Person!!!</h2>
+        <p>please login or register</p>
+    {% endif %}
+
+    <p>Our very simple site</p>
+{% endblock %}

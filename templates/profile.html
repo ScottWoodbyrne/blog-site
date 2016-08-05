@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load gravatar %}
+{% block content %}
+
+
+    <a class="story-img" href="#" style="float: right;">
+            <img src="{% gravatar_url user.email %}" style="max-width: 100px; max-height: 100px; background-color:#12ABB2; color:#ffffff">
+    </a>
+    <h2>Hi {{ user.email }}</h2>
+
+    {% if user.cancel_at_period_end %}
+        <h4>You have chosen to leave us...</h4>
+        <p>Your stripe id is {{ user.stripe_id }}</p>
+        <p>Your subscription will end on {{ user.subscription_end }}.</p>
+        <p>You can continue to use the site untill then.</p>
+        <img class="img-responsive" src="http://s2.quickmeme.com/img/58/58de5c749c440e3bd741f9872d4f17281d9ce989c925dacbea4cb2003272e223.jpg" alt="">
+
+    {% else %}
+        <h4>Congratulations, your account is currently active</h4>
+        <p>Current billing period ends on {{ user.subscription_end }} </p>
+        <p>To cancel your subscription click 'Cancel Subscripton' below</p>
+        <p>
+            <a href="{% url "cancel_subscription" %}" onclick="return cancelSubscriptionCheck();" class="btn btn-danger">Cancel Subscription</a>
+        </p>
+    {% endif %}
+
+
+
+    <script type="text/javascript">
+        function cancelSubscriptionCheck(){
+            if (confirm('Are you sure you want to cancel?')){
+                return true;
+            }
+            return false
+        }
+    </script>
+
+{% endblock %}
+

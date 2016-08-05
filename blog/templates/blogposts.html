@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load gravatar %}
+{% block content %}
+
+
+
+            <!-- Blog Entries Column -->
+
+
+       <div class="jumbotron">
+
+            <h1>Blogger
+
+                <p  id="logo" class="lead">The Greatest Blog on The Internets!!</p>
+            </h1>
+       </div>
+            {% if not posts %}
+            <h2>Sorry bro.... nothing matches your crazy-ass search!!</h2>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <video preload="auto" autoplay="autoplay" muted="muted" loop="loop"  style="width: 100%;">
+                            <source src="//i.imgur.com/2sVsNAI.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+
+            {% for post in posts %}
+
+                <h2>
+                    <a href="{% url 'view_post'  post.id %}">{{ post.title }}</a>
+                </h2>
+                <h4>
+                    {{ post.subtitle }}
+                </h4>
+
+
+                <div class="row">
+                    <div class="col-sm-4">
+                    {% if post.image %}
+                    <img class="img-responsive" src="{{ MEDIA_URL }}{{post.image }}" alt="">
+
+                    {% else %}
+                    <img class="img-responsive" src="http://placehold.it/900x300" alt="">
+                    {% endif %}
+                    </div>
+                    <div class="col-sm-8">
+                    <p>{{ post.content | truncatewords:50 }}</p>
+                    </div>
+                </div>
+                <p class="lead">
+                    by <a href="#">{{ post.author }}</a>
+                </p>
+                <p style="display: inline-block; padding-top: 15px;"><span class="glyphicon glyphicon-time"></span>{{ post.published_date }}| <strong>Views:</strong> {{ post.views }} | <strong>Tag:</strong> {{ post.tag }} </p>
+                <a class="btn btn-primary" style="float:right;" onclick="location.href='{% url 'view_post'  post.id %}'">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+                <div class="hr"><hr></div>
+
+
+
+    {% endfor %}
+
+
+{% endblock %}

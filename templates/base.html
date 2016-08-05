@@ -29,7 +29,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Start Bootstrap</a>
+                <a class="navbar-brand" href='{% url 'home'%}'>Powerful Fortress</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -80,7 +80,7 @@
                 <!-- Blog Search Well -->
                 <div class="well">
                     <h4>Blog Search</h4>
-                    <p>Search by keyword or tag</p>
+                    <p>Search by keyword</p>
                     <form class="input-group" method="post" action="{% url 'search' %}">
                         {% csrf_token %}
                         <input type="text" class="form-control" name="searchy">

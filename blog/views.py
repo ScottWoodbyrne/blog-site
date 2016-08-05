@@ -4,46 +4,77 @@ from .models import Post
 from django.shortcuts import render, get_object_or_404
 from .forms import BlogPostForm
 from django.shortcuts import redirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from itertools import chain
+
+# paginator is called by all blog views to paginate the list of blog posts returned
+def paginator(request, posts_list, num_per_page):
+    paginator = Paginator(posts_list, num_per_page)  # Show 5 contacts per page
+
+    page = request.GET.get('page')
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts = paginator.page(paginator.num_pages)
+
+    return posts
 
 
 
-# Create your views here.
 def post_list(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-
+    post_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
+    posts = paginator(request,post_list, 5)
     return render(request, "blogposts.html", {'posts': posts})
 
-
 def post_list_top(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-views')
-    posts = posts[0:5]
+    post_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('-views')
+    post_list = post_list[0:10]
+    posts = paginator(request, post_list, 5)
     return render(request, "blogposts.html", {'posts': posts})
 
 def post_list_shortest(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-    posts = sorted(posts, key=lambda post: len(post.content))
-    posts = posts[0:5]
+    post_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
+
+    post_list = sorted(post_list, key=lambda post: len(post.content))
+    post_list = post_list[0:5]
+    posts = paginator(request, post_list, 5)
     return render(request, "blogposts.html", {'posts': posts})
 
 def post_list_newest(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-    posts = posts[0:5]
+    post_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
+    post_list = post_list[0:5]
+    posts = paginator(request, post_list, 5)
     return render(request, "blogposts.html", {'posts': posts})
 
 def post_list_oldest(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date').reverse()
-    posts = posts[0:5]
+    post_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date').reverse()
+    post_list = post_list[0:5]
+    posts = paginator(request, post_list, 5)
     return render(request, "blogposts.html", {'posts': posts})
 
 def search(request):
     searchTerm = request.POST["searchy"]
-    posts = Post.objects.filter(content__icontains= searchTerm, published_date__lte=timezone.now()).order_by('-published_date')
 
+    content_list = Post.objects.filter(content__icontains= searchTerm , published_date__lte=timezone.now()).order_by('-published_date')
+    tag_list = Post.objects.filter(tag__icontains= searchTerm, published_date__lte=timezone.now()).order_by('-published_date')
+    title_list = Post.objects.filter(title__icontains=searchTerm, published_date__lte=timezone.now()).order_by('-published_date')
+    subtitle_list = Post.objects.filter(subtitle__icontains=searchTerm, published_date__lte=timezone.now()).order_by('-published_date')
+
+    # add the four filers above together and remove duplicates
+    post_list = list(chain(content_list, tag_list, title_list, subtitle_list))
+    post_list = list(set(post_list))
+
+    posts = paginator(request, post_list, 300)
     return render(request, "blogposts.html", {'posts': posts})
 
 def gettags(request, searchtag):
-    posts = Post.objects.filter(tag__icontains=searchtag, published_date__lte=timezone.now()).order_by('-published_date')
-
+    post_list = Post.objects.filter(tag__icontains=searchtag, published_date__lte=timezone.now()).order_by('-published_date')
+    posts = paginator(request, post_list, 5)
     return render(request, "blogposts.html", {'posts': posts})
 
 def post_detail(request, id):

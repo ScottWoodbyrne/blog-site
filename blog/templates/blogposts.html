@@ -9,9 +9,9 @@
 
        <div class="jumbotron">
 
-            <h1>Blogger
+            <h1>Powerful Fortress
 
-                <p  id="logo" class="lead">The Greatest Blog on The Internets!!</p>
+                <p  id="logo" class="lead">The Greatest Blog on Them Interwebs!!</p>
             </h1>
        </div>
             {% if not posts %}
@@ -58,9 +58,27 @@
                 <a class="btn btn-primary" style="float:right;" onclick="location.href='{% url 'view_post'  post.id %}'">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
                 <div class="hr"><hr></div>
 
-
-
     {% endfor %}
+    {% if posts.number == 1 and posts.paginator.num_pages == 1 %}
+
+    {% else %}
+        <div class="pagination">
+            <span class="step-links">
+
+                {% if posts.has_previous %}
+                    <a href="?page={{ posts.previous_page_number }}" class="glyphicon glyphicon-chevron-left"></a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+                </span>
+
+                {% if posts.has_next %}
+                    <a href="?page={{ posts.next_page_number }}" class="glyphicon glyphicon-chevron-right"></a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
 
 
 {% endblock %}

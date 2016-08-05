@@ -27,3 +27,8 @@ div.hr hr {
     clear: both;
 }
 
+.pagination {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}

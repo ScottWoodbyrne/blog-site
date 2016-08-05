@@ -20,43 +20,6 @@ from models import User
 stripe.api_key = settings.STRIPE_SECRET
 
 
-# Create your views here.
-
-# def register(request):
-#     if request.method == 'POST':
-#         form = UserRegistrationForm(request.POST)
-#         if form.is_valid():
-#             try:
-#                 customer = stripe.Charge.create(
-#                     amount=499,
-#                     currency='USD',
-#                     description=form.cleaned_data['email'],
-#                     card=form.cleaned_data['stripe_id'],
-#                 )
-#             except stripe.error.CardError, e:
-#                 messages.error(request, 'Your card was declined!')
-#
-#             if customer.paid:
-#                 form.save()
-#                 user = auth.authenticate(email=request.POST.get('email'), password=request.POST.get('password1'))
-#
-#                 if user:
-#                     auth.login(request, user)
-#                     messages.success(request, 'You have successfully registered')
-#                     return redirect(reverse('profile'))
-#                 else:
-#                     messages.error(request, 'unable to log you in at this time!')
-#
-#             else:
-#                 messages.error(request, 'We were unable to take a payment with this card!')
-#     else:
-#         today = datetime.date.today()
-#         form = UserRegistrationForm()
-#
-#         args = {'form': form, 'publishable': settings.STRIPE_PUBLISHABLE}
-#         args.update(csrf(request))
-#
-#         return render(request, 'register.html', args)
 
 def register(request):
     if request.method == 'POST':

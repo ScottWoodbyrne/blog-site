@@ -2,7 +2,7 @@ from django.conf.urls import url
 import views
 
 urlpatterns = [
-    url(r'^blog/$', views.post_list, name='home'),
+    url(r'^$', views.post_list, name='home'),
     url(r'^blog/top$', views.post_list_top,name='top'),
     url(r'^blog/shortest', views.post_list_shortest, name='shortest'),
     url(r'^blog/newest', views.post_list_newest, name='newest'),

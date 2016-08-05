@@ -17,6 +17,7 @@
 
     {% else %}
         <h4>Congratulations, your account is currently active</h4>
+        <p>Your stripe id is {{ user.stripe_id }}</p>
         <p>Current billing period ends on {{ user.subscription_end }} </p>
         <p>To cancel your subscription click 'Cancel Subscripton' below</p>
         <p>

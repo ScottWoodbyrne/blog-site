@@ -4,6 +4,7 @@ A Blog created in Django using PyCharm. Deployed version hosted on heroku availa
 
 ## Requirements
 
+```
 * arrow==0.8.0
 * boto==2.42.0
 * dj-database-url==0.4.1
@@ -24,18 +25,18 @@ A Blog created in Django using PyCharm. Deployed version hosted on heroku availa
 * stripe==1.37.0
 * wheel==0.24.0
 * mysql-python==1.2.5
-
-
-Install requirements via pip:
-
-```
-pip install -r requirements.txt
 ```
 
-Run database migrations:
+## Install requirements via pip:
 
 ```
-python manage.py migrate
+    pip install -r requirements.txt
+```
+
+## Run database migrations:
+
+```
+    python manage.py migrate
 ```
 
 ## Add local gitrepo
@@ -57,6 +58,12 @@ python manage.py migrate
 
 ```
     $ heroku run python manage.py migrate
+```
+
+## Automated testing
+
+```
+    Blog/test.py
 ```
 
 ## Further Reading

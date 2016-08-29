@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <p class="lead">
-                    by <a href="#">{{ post.author }}</a>
+                    by <a href="mailto:{{post.author }}?subject={{ post.title }}">{{ post.author }}</a>
                 </p>
                 <p style="display: inline-block; padding-top: 15px;"><span class="glyphicon glyphicon-time"></span>{{ post.published_date }}| <strong>Views:</strong> {{ post.views }} | <strong>Tag:</strong> {{ post.tag }} </p>
                 <a class="btn btn-primary" style="float:right;" onclick="location.href='{% url 'view_post'  post.id %}'">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>

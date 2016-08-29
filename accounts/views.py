@@ -1,6 +1,4 @@
-from django.shortcuts import render
 
-# Create your views here.
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from accounts.forms import UserRegistrationForm, UserLoginForm
@@ -8,7 +6,6 @@ from django.core.urlresolvers import reverse
 from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-import datetime
 import stripe
 import arrow
 import datetime
